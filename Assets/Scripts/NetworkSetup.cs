@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
-using Prototype.NetworkLobby;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class NetworkSetup : MonoBehaviour {
-	LobbyManager lobbyManager;
+	NetworkLobbyManager lobbyManager;
 	public InputField roomName;
 	public InputField password;
 	public InputField nickname;
 	// Use this for initialization
 	void Start () {
-		lobbyManager = GetComponent<LobbyManager>();
+		lobbyManager = GetComponent<NetworkLobbyManager>();
 
 		if (lobbyManager == null)
 		{
@@ -25,7 +25,7 @@ public class NetworkSetup : MonoBehaviour {
 	
 	}
 
-	void OnCreate ()
+	public void OnCreate ()
 	{
 		lobbyManager.StartMatchMaker();
 		lobbyManager.StartMatchMaker();
@@ -33,7 +33,8 @@ public class NetworkSetup : MonoBehaviour {
 			roomName.text,
 			(uint)lobbyManager.maxPlayers,
 			true,
-			"", "", "", 0, 0,
+			password.text, "", "", 0, 0,
 			lobbyManager.OnMatchCreate);
+
 	}
 }
