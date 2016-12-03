@@ -33,9 +33,10 @@ namespace Prototype.NetworkLobby
 
         protected RectTransform currentPanel;
 
+		
         public Button backButton;
 
-        public Text statusInfo;
+		public Text statusInfo;
         public Text hostInfo;
 
         //Client numPlayers from NetworkManager is always 0, so we count (throught connect/destroy in LobbyPlayer) the number
@@ -53,18 +54,21 @@ namespace Prototype.NetworkLobby
 
         protected LobbyHook _lobbyHooks;
 
+		
+
         void Start()
         {
-            s_Singleton = this;
+			DontDestroyOnLoad(gameObject);
+			s_Singleton = this;
             _lobbyHooks = GetComponent<Prototype.NetworkLobby.LobbyHook>();
             currentPanel = mainMenuPanel;
 
-            backButton.gameObject.SetActive(false);
+            //backButton.gameObject.SetActive(false);
             GetComponent<Canvas>().enabled = true;
-
-            DontDestroyOnLoad(gameObject);
-
-            SetServerInfo("Offline", "None");
+			//backButton.onClick.AddListener(GoToMainMenu);
+            
+			
+			SetServerInfo("Offline", "None");
         }
 
         public override void OnLobbyClientSceneChanged(NetworkConnection conn)
@@ -133,11 +137,11 @@ namespace Prototype.NetworkLobby
 
             if (currentPanel != mainMenuPanel)
             {
-                backButton.gameObject.SetActive(true);
+                //backButton.gameObject.SetActive(true);
             }
             else
             {
-                backButton.gameObject.SetActive(false);
+                //backButton.gameObject.SetActive(false);
                 SetServerInfo("Offline", "None");
                 _isMatchmaking = false;
             }
@@ -266,7 +270,7 @@ namespace Prototype.NetworkLobby
             foreach (PlayerController p in ClientScene.localPlayers)
                 localPlayerCount += (p == null || p.playerControllerId == -1) ? 0 : 1;
 
-            addPlayerButton.SetActive(localPlayerCount < maxPlayersPerConnection && _playerNumber < maxPlayers);
+            //addPlayerButton.SetActive(localPlayerCount < maxPlayersPerConnection && _playerNumber < maxPlayers);
         }
 
         // ----------------- Server callbacks ------------------

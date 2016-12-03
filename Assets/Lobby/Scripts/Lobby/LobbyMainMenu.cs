@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Networking.Types;
+using System;
+using System.Collections.Generic;
+using UnityEngine.Networking.Match;
 
 namespace Prototype.NetworkLobby
 {
@@ -12,21 +16,61 @@ namespace Prototype.NetworkLobby
         public RectTransform lobbyServerList;
         public RectTransform lobbyPanel;
 
-        public InputField ipInput;
         public InputField matchNameInput;
+		public InputField passwordInput;
 
-        public void OnEnable()
+		public Button createJoinButton;
+		bool isCreateMode;
+
+
+		public void OnEnable()
         {
             lobbyManager.topPanel.ToggleVisibility(true);
 
-            ipInput.onEndEdit.RemoveAllListeners();
+            /*ipInput.onEndEdit.RemoveAllListeners();
             ipInput.onEndEdit.AddListener(onEndEditIP);
-
+			*/
             matchNameInput.onEndEdit.RemoveAllListeners();
             matchNameInput.onEndEdit.AddListener(onEndEditGameName);
-        }
 
-        public void OnClickHost()
+			isCreateMode = GameObject.Find("GameManager").GetComponent<GameManager>().getCreateMode();
+			if (isCreateMode)
+			{
+				createJoinButton.onClick.AddListener(OnClickCreateMatchmakingGame);
+			}
+			else
+			{
+				createJoinButton.onClick.AddListener(OnClickJoinMatch);
+			}
+		}
+
+		public void OnClickJoinMatch()
+		{
+			lobbyManager.StartMatchMaker();
+			lobbyManager.matchMaker.ListMatches(0, 10, matchNameInput.text, false, 0, 0, OnMatchList);
+		}
+
+		private void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
+		{
+			for(int i = 0; i < matches.Count; ++i)
+			{
+				if (matchNameInput.text.Equals(matches[i].name))
+				{
+					JoinMatch(matches[i].networkId, lobbyManager);
+					return;
+				}
+			}
+			Debug.Log("No match with this name found!");
+		}
+
+		void JoinMatch(NetworkID networkID, LobbyManager lobbyManager)
+		{
+			lobbyManager.matchMaker.JoinMatch(networkID, passwordInput.text, "", "", 0, 0, lobbyManager.OnMatchJoined);
+			lobbyManager.backDelegate = lobbyManager.StopClientClbk;
+			lobbyManager._isMatchmaking = true;
+			lobbyManager.DisplayIsConnecting();
+		}
+		public void OnClickHost()
         {
             lobbyManager.StartHost();
         }
@@ -35,7 +79,6 @@ namespace Prototype.NetworkLobby
         {
             lobbyManager.ChangeTo(lobbyPanel);
 
-            lobbyManager.networkAddress = ipInput.text;
             lobbyManager.StartClient();
 
             lobbyManager.backDelegate = lobbyManager.StopClientClbk;
@@ -61,7 +104,8 @@ namespace Prototype.NetworkLobby
                 matchNameInput.text,
                 (uint)lobbyManager.maxPlayers,
                 true,
-				"", "", "", 0, 0,
+				passwordInput.text,
+				"", "", 0, 0,
 				lobbyManager.OnMatchCreate);
 
             lobbyManager.backDelegate = lobbyManager.StopHost;
