@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using UnityEngine.Networking.Types;
-using System;
 using System.Collections.Generic;
 using UnityEngine.Networking.Match;
 
@@ -25,11 +23,6 @@ namespace Prototype.NetworkLobby
 
 		public void OnEnable()
         {
-            lobbyManager.topPanel.ToggleVisibility(true);
-
-            /*ipInput.onEndEdit.RemoveAllListeners();
-            ipInput.onEndEdit.AddListener(onEndEditIP);
-			*/
             matchNameInput.onEndEdit.RemoveAllListeners();
             matchNameInput.onEndEdit.AddListener(onEndEditGameName);
 
@@ -83,8 +76,6 @@ namespace Prototype.NetworkLobby
 
             lobbyManager.backDelegate = lobbyManager.StopClientClbk;
             lobbyManager.DisplayIsConnecting();
-
-            lobbyManager.SetServerInfo("Connecting...", lobbyManager.networkAddress);
         }
 
         public void OnClickDedicated()
@@ -93,8 +84,6 @@ namespace Prototype.NetworkLobby
             lobbyManager.StartServer();
 
             lobbyManager.backDelegate = lobbyManager.StopServerClbk;
-
-            lobbyManager.SetServerInfo("Dedicated Server", lobbyManager.networkAddress);
         }
 
         public void OnClickCreateMatchmakingGame()
@@ -111,8 +100,6 @@ namespace Prototype.NetworkLobby
             lobbyManager.backDelegate = lobbyManager.StopHost;
             lobbyManager._isMatchmaking = true;
             lobbyManager.DisplayIsConnecting();
-
-            lobbyManager.SetServerInfo("Matchmaker Host", lobbyManager.matchHost);
         }
 
         public void OnClickOpenServerList()
@@ -120,14 +107,6 @@ namespace Prototype.NetworkLobby
             lobbyManager.StartMatchMaker();
             lobbyManager.backDelegate = lobbyManager.SimpleBackClbk;
             lobbyManager.ChangeTo(lobbyServerList);
-        }
-
-        void onEndEditIP(string text)
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                OnClickJoin();
-            }
         }
 
         void onEndEditGameName(string text)

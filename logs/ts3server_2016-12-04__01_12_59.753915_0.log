@@ -1,0 +1,6 @@
+﻿2016-12-04 01:12:59.762934|INFO    |ServerLibPriv |   |TeamSpeak 3 Server 3.0.3.2 (2015-06-10 10:47:37) SDK
+2016-12-04 01:12:59.767946|INFO    |ServerLibPriv |   |SystemInformation: Windows 8 (9200) x64 (AMD or Intel) Binary: 32bit
+2016-12-04 01:12:59.773462|INFO    |ServerLibPriv |   |Using hardware aes
+2016-12-04 01:12:59.782986|WARNING |Accounting    |   |Unable to find valid license key, falling back to limited functionality
+2016-12-04 01:13:01.194449|INFO    |              |   |Puzzle precompute time: 1383
+2016-12-04 01:13:01.208989|INFO    |VirtualSvrMgr |   |addServer() VirtualServer(1) started

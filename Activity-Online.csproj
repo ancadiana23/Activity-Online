@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\ButtonMethods.cs" />
     <Compile Include="Assets\Scripts\CreateJoinButton.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\MicTest.cs" />
     <Compile Include="Assets\Scripts\NetworkSetup.cs" />
     <Compile Include="Assets\Scripts\Webcam.cs" />
   </ItemGroup>
