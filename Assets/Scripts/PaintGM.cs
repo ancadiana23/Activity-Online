@@ -20,8 +20,8 @@ public class PaintGM : MonoBehaviour {
 
         if (Input.GetKey (mouseLeft))
         {
-            Transform newObject = (Transform) Instantiate(baseDot, objectPosition, baseDot.rotation);
-            newObject.transform.SetParent(canvas.transform, false);
+            Transform newObject = (Transform) Instantiate(baseDot, new Vector3(mousePosition.x, mousePosition.y, 10), baseDot.rotation);
+            newObject.transform.SetParent(canvas.transform, true);
             
         }
 	}
