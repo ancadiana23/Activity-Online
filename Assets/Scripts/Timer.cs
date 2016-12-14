@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +10,7 @@ public class Timer : MonoBehaviour {
 
     // Use this for initialization
     public void StartTimer () {
-        startButton.gameObject.SetActive(false);
+		startButton.gameObject.SetActive(false);
         timeLeft = 60;
         StartCoroutine(updateCoroutine());
     }
@@ -21,7 +20,6 @@ public class Timer : MonoBehaviour {
     {
         if (timeLeft <= 0)
         {
-            startButton.gameObject.SetActive(true);
             return;
         }
         timeLeft -= Time.deltaTime;
@@ -34,6 +32,6 @@ public class Timer : MonoBehaviour {
             timerText.text = string.Format("{0:0}", timeLeft);
             yield return new WaitForSeconds(0.2f);
         }
-
-    }
+		startButton.gameObject.SetActive(true);
+	}
 }
