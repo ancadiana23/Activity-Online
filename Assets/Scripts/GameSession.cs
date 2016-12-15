@@ -15,6 +15,10 @@ public class GameSession : MonoBehaviour
 	int currentTeam;
 	int numTeams;
 	List<string> playerNames;
+
+	string[][] words;
+	int MIME = 0, TALK = 1, DRAW = 2;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -27,9 +31,16 @@ public class GameSession : MonoBehaviour
 			playerNames.Add("Player " + (i + 1).ToString());
 		}
 
-		teams[0] = new Team ("Team 1", new int[] { 0, 2 });
-		teams[1] = new Team ("Team 2", new int[] { 1, 3 });
+		
 		newRound();
+		teams[0] = new Team ("Team 1", 2, new int[] { 1, 3 });
+		teams[1] = new Team ("Team 2", 2, new int[] { 2, 4 });
+		words = new string[][] {{"Mittens", "Bowl Haircut", "Dracula", 
+								 "Dirty Dancing", "Mermaid", "Collection"},
+			     				{"Dora the Explorer", "Silence of the Lambs", "Sombre",
+								 "Recursion", "Ada Lovelace", "Inception"}, 
+								{"Couch Potato", "Studio Apartment", "Bowl Haircut", 
+								 "Recursion", "To infinity and beyond", "Charades"}};
 	}
 	
 	// Update is called once per frame
