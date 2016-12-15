@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PaintGM : MonoBehaviour {
+public class paintGM : MonoBehaviour {
 
     public Canvas canvas;
     public Transform baseDot;
