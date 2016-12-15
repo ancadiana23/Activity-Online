@@ -6,6 +6,7 @@ public class Webcam : MonoBehaviour {
     public RawImage rawIm;
     private WebCamTexture webcamTexture = null;
     private RectTransform rect = null;
+	public int width, height;
 	// Use this for initialization
 	void Start () {
         webcamTexture = new WebCamTexture();
@@ -18,8 +19,7 @@ public class Webcam : MonoBehaviour {
 	    if (webcamTexture.width > 100)
         {
 			rect.sizeDelta = new Vector2(webcamTexture.width, webcamTexture.height);
-			//rawIm.material.mainTexture = webcamTexture;
-			
+			rect.localScale = new Vector3(width / (float)webcamTexture.width, height / (float)webcamTexture.height, 1);
 		}
 	}
 

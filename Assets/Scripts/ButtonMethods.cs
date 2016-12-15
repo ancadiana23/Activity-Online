@@ -1,5 +1,4 @@
-﻿using Prototype.NetworkLobby;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ButtonMethods : MonoBehaviour {
