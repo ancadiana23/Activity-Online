@@ -13,8 +13,8 @@ public class Team
 	{
 		this.name = name;
 		this.players = players;
-		this.level = 0;
-		current_player = 0;
+		this.score = 0;
+		this.currentPlayer = 0;
 	}
 
 	public int CurrentPlayer

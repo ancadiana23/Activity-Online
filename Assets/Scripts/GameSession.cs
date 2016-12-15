@@ -1,20 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSession : MonoBehaviour 
 {
+	public Sprite redTeamSelected;
+	public Sprite yellowTeamSelected;
+	public Sprite greenTeamSelected;
+	public Sprite blueTeamSelected;
+	public Image teamsDiamondImage;
+	public Text currentPlayerText;
+
 	Team[] teams;
 	int currentTeam;
 	int numTeams;
-
+	List<string> playerNames;
 	// Use this for initialization
 	void Start () 
 	{
 		numTeams = 2;
 		teams = new Team[2];
-		teams[0] = new Team ("Team 1", new Int32[] { 1, 3 });
-		teams[1] = new Team ("Team 2", new Int32[] { 2, 4 });
+
+		playerNames = new List<string>();
+		for (int i = 0; i < 4; ++i)
+		{
+			playerNames.Add("Player " + (i + 1).ToString());
+		}
+
+		teams[0] = new Team ("Team 1", new int[] { 0, 2 });
+		teams[1] = new Team ("Team 2", new int[] { 1, 3 });
+		newRound();
 	}
 	
 	// Update is called once per frame
@@ -23,12 +38,34 @@ public class GameSession : MonoBehaviour
 		
 	}
 
-	void newRound()
+	public void newRound()
 	{
 		currentTeam = (currentTeam + 1) % numTeams;
-		// TODO change dimond
-		// TODO change player name
+		// change diamond
+		selectTeam(currentTeam);
+		// change player name
+		currentPlayerText.text = playerNames[teams[currentTeam].CurrentPlayer];
+	}
 
+	void selectTeam(int team)
+	{
+		switch(team)
+		{
+			case 0:
+				teamsDiamondImage.overrideSprite = redTeamSelected;
+				break;
+			case 1:
+				teamsDiamondImage.overrideSprite = yellowTeamSelected;
+				break;
+			case 2:
+				teamsDiamondImage.overrideSprite = greenTeamSelected;
+				break;
+			case 3:
+				teamsDiamondImage.overrideSprite = blueTeamSelected;
+				break;
+			default:
+				break;
+		}
 	}
 
 }

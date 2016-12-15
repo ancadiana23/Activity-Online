@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.5.0f3</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -188,11 +190,13 @@
     <Compile Include="Assets\Scripts\ButtonMethods.cs" />
     <Compile Include="Assets\Scripts\CreateJoinButton.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\GameSession.cs" />
     <Compile Include="Assets\Scripts\MicTest.cs" />
     <Compile Include="Assets\Scripts\Network.cs" />
     <Compile Include="Assets\Scripts\NetworkSetup.cs" />
     <Compile Include="Assets\Scripts\PaintGM.cs" />
     <Compile Include="Assets\Scripts\PlayerNameInputField.cs" />
+    <Compile Include="Assets\Scripts\Team.cs" />
     <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\ToolControlBoard.cs" />
     <Compile Include="Assets\Scripts\Webcam.cs" />
