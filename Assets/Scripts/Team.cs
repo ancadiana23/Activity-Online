@@ -2,19 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Team
+public class Team : Object
 {
 	int[] players;
 	int score;
 	int currentPlayer;
+	int numPlayers;
 	string name;
 
-	public Team(string name, int[] players)
+	public Team(string name, int numPlayers, int[] players)
 	{
 		this.name = name;
 		this.players = players;
-		this.level = 0;
-		current_player = 0;
+		this.numPlayers = numPlayers;
+		this.score = 0;
+		this.currentPlayer = 0;
+	}
+
+	public void setRound(int score)
+	{
+		this.score += score;
+		this.currentPlayer = (currentPlayer + 1) % this.numPlayers;
 	}
 
 	public int CurrentPlayer
