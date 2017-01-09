@@ -6,13 +6,13 @@ public class Network : Photon.PunBehaviour {
 	/// This client's version number. Users are separated from each other by gameversion (which allows you to make breaking changes).
 	/// </summary>
 	string _gameVersion = "1";
-
+    string roomName;
+    string roomPassword;
 	/// <summary>
 	/// MonoBehaviour method called on GameObject by Unity during initialization phase.
 	/// </summary>
 	void Start()
 	{
-		Connect();
 	}
 	/// <summary>
 	/// MonoBehaviour method called on GameObject by Unity during early initialization phase.
@@ -42,18 +42,41 @@ public class Network : Photon.PunBehaviour {
 	public void Connect()
 	{
 		// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
-		if (PhotonNetwork.connected)
+		if (!PhotonNetwork.connected)
 		{
-			// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
-			PhotonNetwork.JoinRandomRoom();
+            PhotonNetwork.ConnectUsingSettings(_gameVersion);
+            // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
 		}
-		else
-		{
-			// #Critical, we must first and foremost connect to Photon Online Server.
-			PhotonNetwork.ConnectUsingSettings(_gameVersion);
-		}
+        GameObject gameObj = GameObject.Find("GameManager");
+        if (!gameObj)
+        {
+            Debug.LogError("GameManager not found in scene!");
+            return;
+        }
+        GameManager gameManager = gameObj.GetComponent<GameManager>();
+        if (!gameManager)
+        {
+            Debug.LogError("Couldn't get the game manager!");
+        }
+        if (gameManager.getCreateMode())
+        {
+            //RoomOptions roomOpt = RoomOptions();
+            PhotonNetwork.CreateRoom(roomName);
+        }
+
 	}
 
+    public void SetRoomName(string name)
+    {
+        roomName = name;
+        Debug.Log(roomName);
+    }
+
+    public void SetRoomPassword(string password)
+    {
+        roomPassword = password;
+        Debug.Log("pass: " + roomPassword);
+    }
 	public override void OnConnectedToMaster()
 	{
 		Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
