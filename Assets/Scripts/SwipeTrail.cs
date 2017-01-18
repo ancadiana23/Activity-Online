@@ -20,7 +20,6 @@ public class SwipeTrail : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("new line");
             thisTrail = Instantiate(trailPrefab) as GameObject;
             thisTrail.transform.parent = GameObject.Find("Canvas").transform;
             mat = thisTrail.GetComponent<TrailRenderer>().material;
@@ -28,8 +27,6 @@ public class SwipeTrail : MonoBehaviour
 
             if (thisTrail == null)
                 Debug.Log("e null");
-            else
-                Debug.Log("perfect");
 
             thisTrail.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -40,7 +37,6 @@ public class SwipeTrail : MonoBehaviour
         }
         else if (Input.GetMouseButton(0))
         {
-            Debug.Log("continue line");
             Ray nRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (!thisTrail)
                 Debug.Log("whaat");
@@ -52,8 +48,6 @@ public class SwipeTrail : MonoBehaviour
         {
             if (thisTrail == null)
                 Debug.Log("e null 2");
-            else
-                Debug.Log("perfect 2");
 
             if (Vector3.Distance(thisTrail.transform.position, startPos) < 0.1)
             {
