@@ -68,8 +68,6 @@ public class GameSession : MonoBehaviour
 			playerNames.Add("Player " + (i + 1).ToString());
 		}
 
-		
-		
 		teams[0] = new Team ("Team 1", 2, new int[] { 0, 2 });
 		teams[1] = new Team ("Team 2", 2, new int[] { 1, 3 });
 		words = new string[, ,] { {  {"Mittens", "Bowl Haircut" },
