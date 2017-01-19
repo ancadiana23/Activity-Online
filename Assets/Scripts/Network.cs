@@ -169,9 +169,8 @@ public class Network : Photon.PunBehaviour {
     {
         Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
-		GameObject o = PrefabsToInstantiate[(PhotonNetwork.player.ID - 1) % PrefabsToInstantiate.Length];
 		Vector3 spawnPos = Vector3.zero;
-		o = PhotonNetwork.Instantiate(o.name, spawnPos, Quaternion.identity, 0);
+		GameObject o = PhotonNetwork.Instantiate("ZomBunny 1", spawnPos, Quaternion.identity, 0);
 		rec = o.GetComponent<PhotonVoiceRecorder>();
 		rec.enabled = true;
 		rec.Transmit = true;
