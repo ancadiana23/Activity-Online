@@ -55,6 +55,16 @@ public class Network : Photon.PunBehaviour {
             }
 			UpdatePlayerList();
 		}
+
+		if (scene2.name.Equals("Boardgame"))
+		{
+			Vector3 spawnPos = Vector3.zero;
+			GameObject o = PhotonNetwork.Instantiate("ZomBunny 1", spawnPos, Quaternion.identity, 0);
+			rec = o.GetComponent<PhotonVoiceRecorder>();
+			rec.enabled = true;
+			rec.Transmit = true;
+			DontDestroyOnLoad(rec);
+		}
         
     }
 
