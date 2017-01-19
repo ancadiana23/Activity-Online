@@ -29,6 +29,7 @@ public class Webcam : MonoBehaviour {
 			return;
 		rawIm.enabled = true;
 		webcamTexture.Play();
+
 	}
 
 	public void StopWebcam()
