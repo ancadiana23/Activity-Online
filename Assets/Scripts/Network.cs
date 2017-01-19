@@ -12,6 +12,9 @@ public class Network : Photon.PunBehaviour {
     string roomPassword;
     GameObject nameList;
     public GameObject nameSlot;
+
+	public GameObject[] PrefabsToInstantiate;   // set in inspector
+	private PhotonVoiceRecorder rec;
 	/// <summary>
 	/// MonoBehaviour method called on GameObject by Unity during initialization phase.
 	/// </summary>
@@ -155,6 +158,12 @@ public class Network : Photon.PunBehaviour {
             PhotonNetwork.JoinRoom(roomName);
         }
 
+		GameObject o = PrefabsToInstantiate[(PhotonNetwork.player.ID - 1) % PrefabsToInstantiate.Length];
+		Vector3 spawnPos = Vector3.zero;
+		o = PhotonNetwork.Instantiate(o.name, spawnPos, Quaternion.identity, 0);
+		rec = o.GetComponent<PhotonVoiceRecorder>();
+		rec.enabled = true;
+		rec.Transmit = true;
     }
     
     public override void OnDisconnectedFromPhoton()
@@ -174,7 +183,7 @@ public class Network : Photon.PunBehaviour {
 
             LoadLobby();
         }
-    }
+	}
 
 
     public override void OnPhotonPlayerConnected(PhotonPlayer player)
@@ -186,8 +195,8 @@ public class Network : Photon.PunBehaviour {
             {
                 Debug.Log("Player: " + playerList[i].name);
             }
-            UpdatePlayerList();       
-    }
+            UpdatePlayerList();
+	}
 
 
 
