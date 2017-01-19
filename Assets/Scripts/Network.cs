@@ -99,7 +99,7 @@ public class Network : Photon.PunBehaviour {
 				continue;
 			}
 
-            GameObject playerName = Instantiate(nameSlot) as GameObject;
+            GameObject playerName = PhotonNetwork.Instantiate("PlayerText", Vector3.zero, Quaternion.identity, 0) as GameObject;
             Text nameText = playerName.transform.GetComponentInChildren<Text>();
             
             if (nameText == null)
