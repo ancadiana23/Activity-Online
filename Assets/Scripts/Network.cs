@@ -15,6 +15,7 @@ public class Network : Photon.PunBehaviour {
 
 	public GameObject[] PrefabsToInstantiate;   // set in inspector
 	private PhotonVoiceRecorder rec;
+	private int numReadyPlayers = 0;
 	/// <summary>
 	/// MonoBehaviour method called on GameObject by Unity during initialization phase.
 	/// </summary>
@@ -121,6 +122,23 @@ public class Network : Photon.PunBehaviour {
         Debug.Log("PhotonNetwork: Loading the room");
         PhotonNetwork.LoadLevel("Lobby");
     }
+
+	public void SetReady()
+	{
+		PhotonView photonView = PhotonView.Get(this);
+		photonView.RPC("SetPlayerReady", PhotonTargets.MasterClient);
+	}
+
+	[PunRPC]
+	void SetPlayerReady(PhotonMessageInfo info)
+	{
+		numReadyPlayers++;
+
+		if (PhotonNetwork.isMasterClient && numReadyPlayers == PhotonNetwork.playerList.Length)
+		{
+			PhotonNetwork.LoadLevel("Boardgame");
+		}
+	}
 
     public void SetRoomName(string name)
     {

@@ -25,4 +25,22 @@ public class ButtonMethods : MonoBehaviour {
 
 		ChangeScene("MainMenu");
 	}
+
+	public void OnClickReady()
+	{
+		GameObject networkManager = GameObject.Find("NetworkManager");
+		if (!networkManager)
+		{
+			Debug.LogError("Cannot find NetworkManager!");
+			return;
+		}
+
+		Network network = networkManager.transform.GetComponent<Network>();
+		if (!networkManager)
+		{
+			Debug.LogError("Cannot find the Network script on the object!");
+			return;
+		}
+		network.SetReady();
+	}
 }
