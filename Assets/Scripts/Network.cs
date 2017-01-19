@@ -54,8 +54,9 @@ public class Network : Photon.PunBehaviour {
                 Debug.LogError("No name list found in the scene!");
                 return;
             }
-        }
-        UpdatePlayerList();
+			UpdatePlayerList();
+		}
+        
     }
 
     /// <summary>
