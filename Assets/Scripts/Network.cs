@@ -58,12 +58,13 @@ public class Network : Photon.PunBehaviour {
 
 		if (scene2.name.Equals("Boardgame"))
 		{
-			Vector3 spawnPos = Vector3.zero;
-			GameObject o = PhotonNetwork.Instantiate("ZomBunny 1", spawnPos, Quaternion.identity, 0);
-			rec = o.GetComponent<PhotonVoiceRecorder>();
+			
+			//Vector3 spawnPos = Vector3.zero;
+			//GameObject o = PhotonNetwork.Instantiate("ZomBunny 1", spawnPos, Quaternion.identity, 0);
+			//rec = o.GetComponent<PhotonVoiceRecorder>();
 			rec.enabled = true;
 			rec.Transmit = true;
-			DontDestroyOnLoad(rec);
+			//DontDestroyOnLoad(rec);
 		}
         
     }
@@ -133,6 +134,23 @@ public class Network : Photon.PunBehaviour {
         PhotonNetwork.LoadLevel("Lobby");
     }
 
+	/*public void StartRound()
+	{
+		PhotonView photonView = PhotonView.Get(this);
+		photonView.RPC("StartCurrentRound", PhotonTargets.MasterClient);
+	}
+
+	[PunRPC]
+	void StartCurrentRound(PhotonMessageInfo info)
+	{
+		numReadyPlayers++;
+
+		if (PhotonNetwork.isMasterClient && numReadyPlayers == PhotonNetwork.playerList.Length)
+		{
+			PhotonNetwork.LoadLevel("Boardgame");
+		}
+	}*/
+
 	public void SetReady()
 	{
 		PhotonView photonView = PhotonView.Get(this);
@@ -146,6 +164,8 @@ public class Network : Photon.PunBehaviour {
 
 		if (PhotonNetwork.isMasterClient && numReadyPlayers == PhotonNetwork.playerList.Length)
 		{
+			rec.enabled = false;
+			rec.Transmit = false;
 			PhotonNetwork.LoadLevel("Boardgame");
 		}
 	}
