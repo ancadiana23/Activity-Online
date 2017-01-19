@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,7 +22,12 @@ public class GameSession : MonoBehaviour
 	public GameObject finishTile;
 	public GameObject[] pawns;
 	public Button startRoundButton;
-	Team[] teams;
+
+    List<String> words_3_talk, words_3_draw, words_3_char;
+    List<String> words_4_talk, words_4_draw, words_4_char;
+    List<String> words_5_talk, words_5_draw, words_5_char;
+
+    Team[] teams;
 	int currentTeam;
 	int numTeams;
 	List<string> playerNames;
@@ -33,6 +40,60 @@ public class GameSession : MonoBehaviour
 	int[] board = new int[] {TALK, DRAW, MIME, MIME, DRAW, MIME, DRAW, DRAW, TALK, TALK, MIME, DRAW, MIME, MIME, TALK, DRAW, TALK, TALK };
 	// Use this for initialization
 
+    void read_cards()
+    {
+        var reader_3 = new StreamReader(File.OpenRead(Directory.GetCurrentDirectory() + "\\3.csv"));
+        var reader_4 = new StreamReader(File.OpenRead(Directory.GetCurrentDirectory() + "\\4.csv"));
+        var reader_5 = new StreamReader(File.OpenRead(Directory.GetCurrentDirectory() + "\\5.csv"));
+
+        words_3_talk = new List<String>();
+        words_4_talk = new List<String>();
+        words_5_talk = new List<String>();
+
+        words_3_draw = new List<String>();
+        words_4_draw = new List<String>();
+        words_5_draw = new List<String>();
+
+        words_3_char = new List<String>();
+        words_4_char = new List<String>();
+        words_5_char = new List<String>();
+
+        while (!reader_3.EndOfStream)
+        {
+            var line = reader_3.ReadLine();
+            var values = line.Split(',');
+
+            words_3_talk.Add(values[0]);
+            words_3_draw.Add(values[1]);
+            words_3_char.Add(values[2]);
+        }
+
+        while (!reader_4.EndOfStream)
+        {
+            var line = reader_4.ReadLine();
+            var values = line.Split(',');
+
+            words_4_talk.Add(values[0]);
+            words_4_draw.Add(values[1]);
+            words_4_char.Add(values[2]);
+        }
+
+        while (!reader_5.EndOfStream)
+        {
+            var line = reader_5.ReadLine();
+            var values = line.Split(',');
+
+            words_5_talk.Add(values[0]);
+            words_5_draw.Add(values[1]);
+            words_5_char.Add(values[2]);
+        }
+
+        //for (int i = 0; i < words_3.Count; ++i)
+        //    Debug.Log(words_3[i]);
+        reader_3.Close();
+        reader_4.Close();
+        reader_5.Close();
+    }
 
 	public bool WordChosen
 	{
@@ -70,6 +131,10 @@ public class GameSession : MonoBehaviour
 
 		teams[0] = new Team ("Team 1", 2, new int[] { 0, 2 });
 		teams[1] = new Team ("Team 2", 2, new int[] { 1, 3 });
+
+
+        read_cards();
+        /*
 		words = new string[, ,] { {  {"Mittens", "Bowl Haircut" },
 									{ "Dracula", "Dirty Dancing"},
 									{ "Mermaid", "Collection"}
@@ -83,6 +148,7 @@ public class GameSession : MonoBehaviour
 									{ "To infinity and beyond", "Charades"}
 								 }
 								};
+                                */
 		newRound();
 	}
 	
@@ -168,20 +234,90 @@ public class GameSession : MonoBehaviour
 
 	string ChooseWord(int difficulty)
 	{
-		string wordToGuess;
+		string wordToGuess = "";
 		int teamScore = teams[currentTeam].Score;
 
 		if (teamScore == 0)
 		{
-			action = Random.Range(0, 2);
+			action = UnityEngine.Random.Range(0, 2);
 		}
 		else
 		{
 			action = board[teamScore - 1];
 		}
-		difficulty = difficulty - 3;
-		wordToGuess = words[action, difficulty, Random.Range(0, 1)];
+        //wordToGuess = words[action, difficulty, UnityEngine.Random.Range(0, 1)];
+        int index;
 
+        switch(difficulty)
+        {
+            case 3:
+                switch(action)
+                {
+                    case 0:
+                        index = UnityEngine.Random.Range(0, words_3_talk.Count);
+                        wordToGuess = words_3_talk[index];
+                        words_3_talk.RemoveAt(index);
+                        break;
+
+                    case 1:
+                        index = UnityEngine.Random.Range(0, words_3_draw.Count);
+                        wordToGuess = words_3_draw[index];
+                        words_3_draw.RemoveAt(index);
+                        break;
+
+                    case 2:
+                        index = UnityEngine.Random.Range(0, words_3_char.Count);
+                        wordToGuess = words_3_char[index];
+                        words_3_char.RemoveAt(index);
+                        break;
+                }
+                break;
+
+            case 4:
+                switch (action)
+                {
+                    case 0:
+                        index = UnityEngine.Random.Range(0, words_4_talk.Count);
+                        wordToGuess = words_4_talk[index];
+                        words_4_talk.RemoveAt(index);
+                        break;
+
+                    case 1:
+                        index = UnityEngine.Random.Range(0, words_4_draw.Count);
+                        wordToGuess = words_4_draw[index];
+                        words_4_draw.RemoveAt(index);
+                        break;
+
+                    case 2:
+                        index = UnityEngine.Random.Range(0, words_4_char.Count);
+                        wordToGuess = words_4_char[index];
+                        words_4_char.RemoveAt(index);
+                        break;
+                }
+                break;
+            case 5:
+                switch (action)
+                {
+                    case 0:
+                        index = UnityEngine.Random.Range(0, words_5_talk.Count);
+                        wordToGuess = words_5_talk[index];
+                        words_5_talk.RemoveAt(index);
+                        break;
+
+                    case 1:
+                        index = UnityEngine.Random.Range(0, words_5_draw.Count);
+                        wordToGuess = words_5_draw[index];
+                        words_5_draw.RemoveAt(index);
+                        break;
+
+                    case 2:
+                        index = UnityEngine.Random.Range(0, words_5_char.Count);
+                        wordToGuess = words_5_char[index];
+                        words_5_char.RemoveAt(index);
+                        break;
+                }
+                break;
+        }
 		return wordToGuess;
 	}
 
