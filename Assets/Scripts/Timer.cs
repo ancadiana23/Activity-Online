@@ -81,7 +81,7 @@ public class Timer : MonoBehaviour {
 			Transform[] children = canvas.GetComponentsInChildren<Transform>();
 			for (int i = 0; i < children.Length; ++i)
 			{
-				if (children[i].CompareTag("Dot"))
+				if (children[i].CompareTag("Line"))
 				{
 					Destroy(children[i].gameObject);
 				}
