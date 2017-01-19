@@ -13,7 +13,6 @@ public class Network : Photon.PunBehaviour {
     GameObject nameList;
     public GameObject nameSlot;
 
-	public GameObject[] PrefabsToInstantiate;   // set in inspector
 	private PhotonVoiceRecorder rec;
 	private int numReadyPlayers = 0;
 	/// <summary>
