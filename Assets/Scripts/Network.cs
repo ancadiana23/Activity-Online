@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Network : Photon.PunBehaviour {
@@ -16,6 +17,7 @@ public class Network : Photon.PunBehaviour {
 	/// </summary>
 	void Start()
 	{
+        SceneManager.activeSceneChanged += OnSceneChanged;
         DontDestroyOnLoad(this);
 	}
 	/// <summary>
@@ -38,6 +40,20 @@ public class Network : Photon.PunBehaviour {
 		PhotonNetwork.automaticallySyncScene = true;
 	}
 
+    void OnSceneChanged(Scene scene1, Scene scene2)
+    {
+        if (scene2.name.Equals("Lobby"))
+        {
+            nameList = GameObject.Find("NameList");
+            if (nameList == null)
+            {
+                Debug.LogError("No name list found in the scene!");
+                return;
+            }
+        }
+        UpdatePlayerList();
+    }
+
     /// <summary>
     /// Start the connection process. 
     /// - If already connected, we attempt joining a random room
@@ -50,33 +66,39 @@ public class Network : Photon.PunBehaviour {
 		{
             PhotonNetwork.ConnectUsingSettings(_gameVersion);
             // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
-		}
-        
-
+		} 
 	}
-
-    public void OnLevelWasLoaded(int level)
-    {  
-        if (level == 3)
-        {
-            nameList = GameObject.Find("NameList");
-            if (nameList == null)
-            {
-                Debug.LogError("No name list found in the scene!");
-                return;
-            }
-            UpdatePlayerList();
-        }
-
-    }
 
     public void UpdatePlayerList()
     {
         PhotonPlayer[] playerList = PhotonNetwork.playerList;
-        for (int i = 0; i < playerList.Length; ++i)
+        Text[] names = nameList.transform.GetComponentsInChildren<Text>();
+        if (names == null)
         {
+            Debug.LogError("Couldn't get the list of player names");
+            return;
+        }
+
+		for (int i = 0; i < playerList.Length; ++i)
+        {
+			bool exists = false;
+			for (int j = 0; j < names.Length; ++j)
+			{
+				if (names[j].text.Equals(playerList[i].name))
+				{
+					exists = true;
+					break;
+				}
+			}
+
+			if (exists)
+			{
+				continue;
+			}
+
             GameObject playerName = Instantiate(nameSlot) as GameObject;
             Text nameText = playerName.transform.GetComponentInChildren<Text>();
+            
             if (nameText == null)
             {
                 Debug.LogError("Can't get the text of the button!");
@@ -96,6 +118,7 @@ public class Network : Photon.PunBehaviour {
         Debug.Log("PhotonNetwork: Loading the room");
         PhotonNetwork.LoadLevel("Lobby");
     }
+
     public void SetRoomName(string name)
     {
         roomName = name;
@@ -129,7 +152,6 @@ public class Network : Photon.PunBehaviour {
         }
         else
         {
-
             PhotonNetwork.JoinRoom(roomName);
         }
 
@@ -151,7 +173,6 @@ public class Network : Photon.PunBehaviour {
 
 
             LoadLobby();
-            //UpdatePlayerList();
         }
     }
 
@@ -165,9 +186,10 @@ public class Network : Photon.PunBehaviour {
             {
                 Debug.Log("Player: " + playerList[i].name);
             }
-
-            
+            UpdatePlayerList();       
     }
+
+
 
     public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
     {
