@@ -156,14 +156,7 @@ public class Network : Photon.PunBehaviour {
         else
         {
             PhotonNetwork.JoinRoom(roomName);
-        }
-
-		GameObject o = PrefabsToInstantiate[(PhotonNetwork.player.ID - 1) % PrefabsToInstantiate.Length];
-		Vector3 spawnPos = Vector3.zero;
-		o = PhotonNetwork.Instantiate(o.name, spawnPos, Quaternion.identity, 0);
-		rec = o.GetComponent<PhotonVoiceRecorder>();
-		rec.enabled = true;
-		rec.Transmit = true;
+		}		
     }
     
     public override void OnDisconnectedFromPhoton()
@@ -176,10 +169,16 @@ public class Network : Photon.PunBehaviour {
     {
         Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
 
-        if (PhotonNetwork.isMasterClient)
+		GameObject o = PrefabsToInstantiate[(PhotonNetwork.player.ID - 1) % PrefabsToInstantiate.Length];
+		Vector3 spawnPos = Vector3.zero;
+		o = PhotonNetwork.Instantiate(o.name, spawnPos, Quaternion.identity, 0);
+		rec = o.GetComponent<PhotonVoiceRecorder>();
+		rec.enabled = true;
+		rec.Transmit = true;
+		DontDestroyOnLoad (rec);
+		if (PhotonNetwork.isMasterClient)
         {
             Debug.Log("OnPhotonPlayerConnected isMasterClient " + PhotonNetwork.isMasterClient); // called before OnPhotonPlayerDisconnected
-
 
             LoadLobby();
         }
